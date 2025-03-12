@@ -17,7 +17,7 @@ SecureMedStream 是一個基於 Pion 的 **RTSP 轉 WebRTC** 醫療影像串流�
 
 ## 📸 介面預覽
 
-![平台介面](./images/串流系統介面.png)
+![平台介面](./doc/串流系統介面.png)
 
 ---
 
