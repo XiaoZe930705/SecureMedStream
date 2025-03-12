@@ -1,89 +1,109 @@
-# RTSPtoWebRTC
+# SecureMedStream
 
-RTSP Stream to WebBrowser over WebRTC based on Pion (full native! not using ffmpeg or gstreamer).
+SecureMedStream 是一個基於 Pion 的 **RTSP 轉 WebRTC** 醫療影像串流平台，提供即時串流功能，並具備 **隱私保護** 與 **權限管理** 特性。
 
-**Note:** [RTSPtoWeb](https://github.com/deepch/RTSPtoWeb) is an improved service that provides the same functionality, an improved API, and supports even more protocols. *RTSPtoWeb is recommended over using this service.*
+---
 
+## 🚀 主要功能
 
-if you need RTSPtoWSMP4f use https://github.com/deepch/RTSPtoWSMP4f
+- **RTSP 轉 WebRTC**：支援即時影像串流。
+- **隱私保護**：提供影像遮罩與模糊處理，確保病患隱私。
+- **多設備支援**：兼容本地攝影機、手機鏡頭及其他 RTSP 來源。
+- **權限管理**：管理員可登入帳號密碼觀看未經遮罩的影像。
+- **影像錄製與截圖**：內建錄影與快照擷取功能。
+- **設備監控**：顯示可用設備與系統狀態。
 
+---
 
-![RTSPtoWebRTC image](doc/demo4.png)
+## 📸 介面預覽
 
-### Download Source
+![平台介面](./images/串流系統介面.png)
 
-1. Download source
-   ```bash 
-   $ git clone https://github.com/deepch/RTSPtoWebRTC  
-   ```
-3. CD to Directory
-   ```bash
-    $ cd RTSPtoWebRTC/
-   ```
-4. Test Run
-   ```bash
-    $ GO111MODULE=on go run *.go
-   ```
-5. Open Browser
-    ```bash
-    open web browser http://127.0.0.1:8083 work chrome, safari, firefox
-    ```
+---
 
-## Configuration
+## 🛠 安裝與使用
 
-### Edit file config.json
+### 1️⃣ **環境需求**
+- Python 3.8+
+- Node.js 16+
+- FFmpeg
+- WebRTC 相關依賴
 
-format:
-
+### 2️⃣ **克隆專案**
 ```bash
+git clone https://github.com/XiaoZe930705/SecureMedStream.git
+cd SecureMedStream
+```
+
+### 3️⃣ **安裝依賴**
+```bash
+pip install -r requirements.txt  # 安裝 Python 依賴
+npm install  # 安裝前端依賴
+```
+
+### 4️⃣ **設定環境變數**
+請修改 `.env` 檔案如下：
+```
+RTSP_URL=rtsp://your_camera_url
+SECRET_KEY=your_secret_key
+```
+
+### 5️⃣ **啟動後端**
+```bash
+python app.py
+```
+
+### 6️⃣ **啟動前端**
+```bash
+npm run dev
+```
+
+---
+
+## 🔐 權限管理
+
+- **一般使用者**：僅可觀看經過遮罩處理的影像。
+- **管理員**：需登入帳號密碼，才能觀看未經遮罩保護的影像。
+
+管理員可透過管理介面調整隱私保護與設備權限。
+
+---
+
+## 🔄 配置設定
+
+### 修改 `config.json`
+範例設定：
+```json
 {
   "server": {
     "http_port": ":8083"
   },
   "streams": {
-    "demo1": {
-      "on_demand" : false,
-      "url": "rtsp://170.93.143.139/rtplive/470011e600ef003a004ee33696235daa"
+    "camera1": {
+      "on_demand": false,
+      "url": "rtsp://your_camera_url"
     },
-    "demo2": {
-      "on_demand" : true,
-      "url": "rtsp://admin:admin123@10.128.18.224/mpeg4"
-    },
-    "demo3": {
-      "on_demand" : false,
-      "url": "rtsp://170.93.143.139/rtplive/470011e600ef003a004ee33696235daa"
+    "camera2": {
+      "on_demand": true,
+      "url": "rtsp://another_camera_url"
     }
   }
 }
 ```
 
-## Livestreams
+為了避免影像卡頓與效能問題，請將 `"on_demand": false` 設定為持續串流模式。
 
-Use option ``` "on_demand": false ``` otherwise you will get choppy jerky streams and performance issues when multiple clients connect. 
+---
 
-## Limitations
+## 📄 授權
+本專案採用 MIT 授權，詳見 `LICENSE` 文件。
 
-Video Codecs Supported: H264
+---
 
-Audio Codecs Supported: pcm alaw and pcm mulaw 
+## 💡 未來改進方向
+- [ ] 優化 WebRTC 低延遲技術。
+- [ ] 增加更多影像處理功能（去識別化、邊緣偵測等）。
+- [ ] 提供 Docker 部署選項。
 
-## Team
+📢 如果有任何建議或貢獻，歡迎提交 Issue 或 PR！
 
-Deepch - https://github.com/deepch streaming developer
-
-Dmitry - https://github.com/vdalex25 web developer
-
-Now test work on (chrome, safari, firefox) no MAC OS
-
-## Other Example
-
-Examples of working with video on golang
-
-- [RTSPtoWeb](https://github.com/deepch/RTSPtoWeb)
-- [RTSPtoWebRTC](https://github.com/deepch/RTSPtoWebRTC)
-- [RTSPtoWSMP4f](https://github.com/deepch/RTSPtoWSMP4f)
-- [RTSPtoImage](https://github.com/deepch/RTSPtoImage)
-- [RTSPtoHLS](https://github.com/deepch/RTSPtoHLS)
-- [RTSPtoHLSLL](https://github.com/deepch/RTSPtoHLSLL)
-
-[![paypal.me/AndreySemochkin](https://ionicabizau.github.io/badges/paypal.svg)](https://www.paypal.me/AndreySemochkin) - You can make one-time donations via PayPal. I'll probably buy a ~~coffee~~ tea. :tea:
